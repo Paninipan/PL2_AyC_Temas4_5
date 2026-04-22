@@ -70,15 +70,15 @@ por lo que la complejidad -< O(n)
 #prueba
 #Pedido = (id, peso, beneficio, destino)
 pedido1 = [0, 50, 250, "A"]
-pedido2 = [1, 25, 20, "A"]
-pedido3 = [2, 45, 21, "A"]
+pedido2 = [1, 25, 1, "A"]
+pedido3 = [2, 45, 100, "A"]
 pedido4 = [3, 1, 100, "A"]
 pedido5 = [4, 1, 100, "A"]
 pedido6 = [5, 1, 100, "A"]
 pedido7 = [6, 1, 100, "A"]
-pedido8 = [7, 1, 100, "A"]
+pedido8 = [7, 1, 1, "A"]
 pedido9 = [8, 20, 20, "A"]
 
 pedidos = [pedido1, pedido2, pedido3, pedido4, pedido5, pedido6,pedido7, pedido8, pedido9]
 
-print(seleccion_pedidos(pedidos,100))
+print(seleccion_pedidos(pedidos,99))
