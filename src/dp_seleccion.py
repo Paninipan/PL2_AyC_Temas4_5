@@ -1,12 +1,12 @@
 """
 Este módulo contiene la función de seleccion de pedidos segun:
-    -Cada pedido se representa como una estructura: 
+    -Cada pedido se representa como una estructura:
         + Pedido = (id, peso, beneficio, destino)
-    -Entradas: 
+    -Entradas:
         + Una matriz de pedidos disponibles.
-        + Una capacidad máxima de carga C. 
-    -Se debe seleccionar el subconjunto de pedidos que: 
-        + No exceda C. 
+        + Una capacidad máxima de carga C.
+    -Se debe seleccionar el subconjunto de pedidos que:
+        + No exceda C.
         + Maximice el beneficio total.
         + Salida:
             -Lista de pedidos asignados:
@@ -20,33 +20,6 @@ Solucion realizada medienate Programación Dinámica, descente recursivo.
     + Asignar si peso < capacidad
     + Return si capacidad == 0 o matriz vacia.
 """
-
-def seleccion_pedidos(pedidos, capacidad) -> list:
-    
-    def seleccion_pedidos_cache(pedidos, capacidad, cache):
-
-        longitud = len(pedidos)
-        print(longitud)
-        if longitud == 0 or capacidad <= 0:
-            return []
-        elif longitud == 1:
-            return pedidos if (pedidos[0][1] <= capacidad) else []
-        else:
-            for i in range(longitud):
-                if capacidad <= 0:
-                    return cache
-                elif pedidos[i][1] <= capacidad:
-                    capacidad -= pedidos[i][1]
-                    cache.append(pedidos[i])
-            return cache
-
-    cache = []
-    #Ordenamos los pedidos por el beneficio [2]
-    # Ya que pedido = (id, peso, beneficio, destino))
-    sorted(pedidos, key=lambda x: x[2], reverse=True)
-    return seleccion_pedidos_cache(pedidos,capacidad, cache)
-
-
 def seleccion_pedidos(pedidos, capacidad) -> list:
     cache = {}
 
@@ -85,7 +58,11 @@ def seleccion_pedidos(pedidos, capacidad) -> list:
     total_beneficio, seleccionados = seleccion_pedidos_dinamico(0, capacidad)
     return seleccionados
 
-
+"""
+Analisis complejidad
+como la cache almacena 1 solucion para cada elemento. como mucho hay n soluciones
+por lo que la complejidad -< O(n)
+"""
 
 
 
