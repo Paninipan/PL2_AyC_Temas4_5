@@ -64,6 +64,17 @@ como la cache almacena 1 solucion para cada elemento. como mucho hay n solucione
 por lo que la complejidad -< O(n)
 """
 
+def imprimir_camion(pedidos):
+    print("Camion :")
+
+    for pedido in pedidos:
+        id_pedido, peso, beneficio, destino = pedido
+
+        print(f"\t+ Pedido : {id_pedido}")
+        print(f"\t\t+ Beneficio : {beneficio}")
+        print(f"\t\t+ Peso : {peso}")
+        print(f"\t\t+ Destino : {destino}")
+
 
 
 
@@ -75,4 +86,6 @@ pedido3 = [2, 50, 10, "C"]
 pedido4 = [3, 300, 250, "D"] # Mismo beneficio que pedido1, menor peso.
 
 pedidos = [pedido1, pedido2, pedido3, pedido4]
-print(seleccion_pedidos(pedidos, 375))
+
+seleccion = seleccion_pedidos(pedidos, 375)
+imprimir_camion(seleccion)
