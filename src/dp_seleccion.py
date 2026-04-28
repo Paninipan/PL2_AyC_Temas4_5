@@ -67,18 +67,12 @@ por lo que la complejidad -< O(n)
 
 
 
-#prueba
-#Pedido = (id, peso, beneficio, destino)
-pedido1 = [0, 50, 250, "A"]
-pedido2 = [1, 25, 1, "A"]
-pedido3 = [2, 45, 100, "A"]
-pedido4 = [3, 1, 100, "A"]
-pedido5 = [4, 1, 100, "A"]
-pedido6 = [5, 1, 100, "A"]
-pedido7 = [6, 1, 100, "A"]
-pedido8 = [7, 1, 1, "A"]
-pedido9 = [8, 20, 20, "A"]
+# --- Prueba de empate ---
 
-pedidos = [pedido1, pedido2, pedido3, pedido4, pedido5, pedido6,pedido7, pedido8, pedido9]
+pedido1 = [0, 400, 250, "A"]
+pedido2 = [1, 24, 20, "B"]
+pedido3 = [2, 50, 10, "C"]
+pedido4 = [3, 300, 250, "D"] # Mismo beneficio que pedido1, menor peso.
 
-print(seleccion_pedidos(pedidos,99))
+pedidos = [pedido1, pedido2, pedido3, pedido4]
+print(seleccion_pedidos(pedidos, 375))
