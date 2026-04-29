@@ -18,12 +18,13 @@ Estructuras de datos y algoritmos implementados:
                 * Destino
                 * Beneficio
         
-        - Matriz de distancias entre puntos de entrega (grafo ponderado) {k*k nodos}:
-            + Fila: Punto o nodo de entrega
-            + Columna: Distancia a otro nodo
+        -Lista de tripletas entre puntos de entrega nodo:
+            + Origen: Nombre del nodo
+            + Destino: Nombre del nodo
+            + Distancia: Distancia entre Or->Ds
         
-        - Lista de entregas (longitud k nodos):
-            + Nodo de entrega 
+        - Lista de entregas (longitud max k nodos):
+            + Nodo de entrega
    
     Algoritmos:
         - Selección de pedidos (Programación Dinámica)

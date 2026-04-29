@@ -76,8 +76,6 @@ def imprimir_camion(pedidos):
         print(f"\t\t+ Destino : {destino}")
 
 
-
-
 # --- Prueba de empate ---
 
 pedido1 = [0, 400, 250, "A"]
