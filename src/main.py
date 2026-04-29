@@ -6,7 +6,7 @@ Este es el modulo principal de la aplicacion, este contiene:
 Estructuras de datos y algoritmos implementados:
 
     Estructuras de datos:
-        - Matriz de pedidos (Nx3 pedidos) :
+        - Matriz de pedidos (Nx4 pedidos) :
             + Fila: Pedido 
             + Columnas: id_pedido, peso, beneficio, destino
         

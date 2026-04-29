@@ -25,7 +25,7 @@ def seleccion_pedidos(pedidos, capacidad) -> list:
 
 # --- Prueba de empate ---
 # Pedido 1 y 4 tienen el mismo beneficio (250), pero el 4 pesa menos.
-pedido1 = [0, 400, 250, "A"]
+pedido1 = [0, 2, 250, "A"]
 pedido2 = [1, 24, 20, "B"]
 pedido3 = [2, 50, 10, "C"]
 pedido4 = [3, 300, 250, "D"] # Mismo beneficio que pedido1, menor peso.
