@@ -128,9 +128,8 @@ def imprimir_nodos(lista_nodos):
     /--dis-->[D]--dis-->[E]--/
     /--dis-->[F]...
     """
-    print(lista_nodos)
-    # for nodo in lista_nodos:
-      #  origen = nodo[1]
-       # destino = nodo[2]
-        #distancia = nodo[3]
-        #print(f"[{origen}] --{distancia}--> [{destino}]")
+    for nodo in lista_nodos:
+        origen = nodo[0]
+        destino = nodo[1]
+        distancia = nodo[2]
+        print(f"[{origen}] --{distancia}--> [{destino}]")
