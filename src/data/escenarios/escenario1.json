@@ -14,14 +14,20 @@
         {
             "origen": "B",
             "destino": "C",
-            "distancia": 76
+            "distancia": 80
         }
     ],
     "pedidos": [
         [
             1,
             239,
-            352,
+            32,
+            "C"
+        ],
+        [
+            1,
+            239,
+            32,
             "B"
         ]
     ]

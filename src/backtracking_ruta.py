@@ -22,12 +22,14 @@ Este módulo contiene la función de backtracking para encontrar la ruta óptima
 
 
 """
-def optimizar_ruta_backtracking(pedidos_asignados, lista_nodos, punto_inicio="A", ventanas_tiempo=None):
+def optimizar_ruta_backtracking(pedidos_asignados, lista_nodos):
     """
     Versión adaptada para trabajar con la estructura de datos de los generadores:
     - lista_nodos: [{"origen": "A", "destino": "B", "distancia": 10}, ...]
     - pedidos_asignados: [(id, peso, beneficio, destino), ...]
     """
+    punto_inicio = "A"
+    ventanas_tiempo = None
 
     # 1. Transformar lista de nodos en un mapa de distancias para búsqueda O(1)
     # Como los generadores suelen dar rutas en un sentido, asumimos bidireccionalidad
@@ -120,14 +122,15 @@ def optimizar_ruta_backtracking(pedidos_asignados, lista_nodos, punto_inicio="A"
     return ruta_detallada, min_distancia
 
 
-def imprimir_nodos(mejor_ruta, lista_nodos, ):
+def imprimir_nodos(lista_nodos):
     """
     [A]--dis-->[B]--dis-->[C]--/
     /--dis-->[D]--dis-->[E]--/
     /--dis-->[F]...
     """
-    for nodo in lista_nodos:
-        origen = nodo["origen"]
-        destino = nodo["destino"]
-        distancia = nodo["distancia"]
-        print(f"[{origen}] --{distancia}--> [{destino}]")
+    print(lista_nodos)
+    # for nodo in lista_nodos:
+      #  origen = nodo[1]
+       # destino = nodo[2]
+        #distancia = nodo[3]
+        #print(f"[{origen}] --{distancia}--> [{destino}]")
