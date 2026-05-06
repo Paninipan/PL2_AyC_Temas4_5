@@ -1,5 +1,6 @@
 import random
 import json
+import os
 import string
 """
 Funciones encargada de generar los escenarios.
@@ -27,164 +28,120 @@ Orden de generacion:
     3. Pedidos (destino = random from Nodos)
 """
 
-def generar_escenario1(num_nodos, capacidad_maxima):
-    # 1. Generar Capacidad (int)
-    capacidad = random.randint(10, capacidad_maxima)
+import random
+import json
+import os
+import string
 
-    # 2. Generar Nodos (k nodos random [A-Z])
-    # Usamos string.ascii_uppercase para obtener letras de la A a la Z
+def generar_escenario1(num_nodos, capacidad_max):
+    capacidad = random.randint(10, capacidad_max)
     nombres_nodos = list(string.ascii_uppercase)[:num_nodos]
 
-    # Generar tripletas de distancias (Grafo completo para el ejemplo)
     nodos_data = []
     for i, origen in enumerate(nombres_nodos):
         for destino in nombres_nodos[i + 1:]:
             distancia = random.randint(5, 100)
-            nodos_data.append({
-                "origen": origen,
-                "destino": destino,
-                "distancia": distancia
-            })
+            nodos_data.append({"origen": origen, "destino": destino, "distancia": distancia})
 
-    # 3. Generar Pedidos (destino = random de nombres_nodos)
+    # Pedidos como tuplas: (id, peso, beneficio, destino)
     pedidos_data = []
-    for i in range(random.randint(1,5)):
-        pedido = {
-            "id_pedido": i + 1,
-            "peso": random.randint(1, 500),
-            "beneficio": random.randint(1, 500),
-            "destino": random.choice(nombres_nodos)
-        }
+    for i in range(random.randint(1, 5)):
+        pedido = (
+            i + 1,                          # id_pedido
+            random.randint(1, 500),         # peso
+            random.randint(1, 500),         # beneficio
+            random.choice(nombres_nodos)    # destino
+        )
         pedidos_data.append(pedido)
 
-    # Estructura final del JSON
-    escenario = {
-        "capacidad": capacidad,
-        "nodos": nodos_data,
-        "pedidos": pedidos_data
-    }
-
+    escenario = {"capacidad": capacidad, "nodos": nodos_data, "pedidos": pedidos_data}
     return json.dumps(escenario, indent=4)
 def generar_escenario2(num_nodos, capacidad_max):
-    # 1. Generar Capacidad (int)
     capacidad = random.randint(10, capacidad_max)
-
-    # 2. Generar Nodos (k nodos random [A-Z])
-    # Usamos string.ascii_uppercase para obtener letras de la A a la Z
     nombres_nodos = list(string.ascii_uppercase)[:num_nodos]
 
-    # Generar tripletas de distancias (Grafo completo para el ejemplo)
     nodos_data = []
     for i, origen in enumerate(nombres_nodos):
         for destino in nombres_nodos[i + 1:]:
             distancia = random.randint(5, 100)
-            nodos_data.append({
-                "origen": origen,
-                "destino": destino,
-                "distancia": distancia
-            })
+            nodos_data.append({"origen": origen, "destino": destino, "distancia": distancia})
 
-    # 3. Generar Pedidos (destino = random de nombres_nodos)
+    # Pedidos como tuplas: (id, peso, beneficio, destino)
     pedidos_data = []
-    for i in range(random.randint(50,200)):
-        pedido = {
-            "id_pedido": i + 1,
-            "peso": random.randint(1, 5),
-            "beneficio": random.randint(1, 500),
-            "destino": random.choice(nombres_nodos)
-        }
+    for i in range(random.randint(50, 200)):
+        pedido = (
+            i + 1,
+            random.randint(1, 5),
+            random.randint(1, 500),
+            random.choice(nombres_nodos)
+        )
         pedidos_data.append(pedido)
 
-    # Estructura final del JSON
-    escenario = {
-        "capacidad": capacidad,
-        "nodos": nodos_data,
-        "pedidos": pedidos_data
-    }
-
+    escenario = {"capacidad": capacidad, "nodos": nodos_data, "pedidos": pedidos_data}
     return json.dumps(escenario, indent=4)
 def generar_escenario3(num_pedidos, num_nodos, capacidad_max):
     capacidad = random.randint(10, capacidad_max)
-
     nombres_nodos = list(string.ascii_uppercase)[:num_nodos]
-
     nodos_data = []
 
-    # Camino principal (A-B-C-D-...)
     for i in range(num_nodos - 1):
-        d = random.randint(25, 28)
-        nodos_data.append({
-            "origen": nombres_nodos[i],
-            "destino": nombres_nodos[i + 1],
-            "distancia": d
-        })
+        nodos_data.append({"origen": nombres_nodos[i], "destino": nombres_nodos[i + 1], "distancia": random.randint(25, 28)})
 
-    # Atajos con coste parecido
     for i in range(num_nodos - 2):
         if random.random() < 0.5:
-            d = random.randint(50, 55)  # parecido a 2 pasos
-            nodos_data.append({
-                "origen": nombres_nodos[i],
-                "destino": nombres_nodos[i + 2],
-                "distancia": d
-            })
+            nodos_data.append({"origen": nombres_nodos[i], "destino": nombres_nodos[i + 2], "distancia": random.randint(50, 55)})
 
-    # Pedidos
+    # Pedidos como tuplas: (id, peso, beneficio, destino)
     pedidos_data = []
     for i in range(num_pedidos):
-        pedidos_data.append({
-            "id_pedido": i + 1,
-            "peso": random.randint(1, 15),
-            "beneficio": random.randint(10, 50),
-            "destino": random.choice(nombres_nodos)
-        })
+        pedido = (
+            i + 1,
+            random.randint(1, 15),
+            random.randint(10, 50),
+            random.choice(nombres_nodos)
+        )
+        pedidos_data.append(pedido)
 
-    escenario = {
-        "capacidad": capacidad,
-        "nodos": nodos_data,
-        "pedidos": pedidos_data
-    }
-
+    escenario = {"capacidad": capacidad, "nodos": nodos_data, "pedidos": pedidos_data}
     return json.dumps(escenario, indent=4)
 def generar_escenario5(num_pedidos, num_nodos, capacidad_max):
-    # 1. Generar Capacidad (int)
     capacidad = random.randint(10, capacidad_max)
-
-    # 2. Generar Nodos (k nodos random [A-Z])
-    # Usamos string.ascii_uppercase para obtener letras de la A a la Z
     nombres_nodos = list(string.ascii_uppercase)[:num_nodos]
-
-    # Generar tripletas de distancias (Grafo completo para el ejemplo)
     nodos_data = []
+
     for i, origen in enumerate(nombres_nodos):
         for destino in nombres_nodos[i + 1:]:
             distancia = random.randint(5, 100)
-            nodos_data.append({
-                "origen": origen,
-                "destino": destino,
-                "distancia": distancia
-            })
+            nodos_data.append({"origen": origen, "destino": destino, "distancia": distancia})
 
-    # 3. Generar Pedidos (destino = random de nombres_nodos)
+    # Pedidos como tuplas: (id, peso, beneficio, destino)
     pedidos_data = []
     for i in range(num_pedidos):
-        pedido = {
-            "id_pedido": i + 1,
-            "peso": random.randint(1, 15),
-            "beneficio": random.randint(10, 50),
-            "destino": random.choice(nombres_nodos)
-        }
+        pedido = (
+            i + 1,
+            random.randint(1, 15),
+            random.randint(10, 50),
+            random.choice(nombres_nodos)
+        )
         pedidos_data.append(pedido)
 
-    # Estructura final del JSON
-    escenario = {
-        "capacidad": capacidad,
-        "nodos": nodos_data,
-        "pedidos": pedidos_data
-    }
-
+    escenario = {"capacidad": capacidad, "nodos": nodos_data, "pedidos": pedidos_data}
     return json.dumps(escenario, indent=4)
+def guardar_json(archivo_json, nombre_archivo):
+    ruta_carpeta = "data/escenarios"
 
-# Ejemplo de uso:
-escenario_json = generar_escenario5(num_pedidos=5, num_nodos=5, capacidad_max=50)
-print(escenario_json)
+    # 🔑 Crear carpeta si no existe
+    os.makedirs(ruta_carpeta, exist_ok=True)
+
+    ruta_completa = os.path.join(ruta_carpeta, nombre_archivo)
+
+    with open(ruta_completa, 'w', encoding='utf-8') as f:
+        f.write(archivo_json)
+
+    return ruta_completa
+
+def leer_json_a_diccionario(ruta_archivo):
+    with open(ruta_archivo, 'r', encoding='utf-8') as f:
+        datos = json.load(f)  # ← convierte a dict automáticamente
+
+    return datos

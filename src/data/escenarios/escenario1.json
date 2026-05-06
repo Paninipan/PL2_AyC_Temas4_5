@@ -1,0 +1,28 @@
+{
+    "capacidad": 484,
+    "nodos": [
+        {
+            "origen": "A",
+            "destino": "B",
+            "distancia": 13
+        },
+        {
+            "origen": "A",
+            "destino": "C",
+            "distancia": 66
+        },
+        {
+            "origen": "B",
+            "destino": "C",
+            "distancia": 76
+        }
+    ],
+    "pedidos": [
+        [
+            1,
+            239,
+            352,
+            "B"
+        ]
+    ]
+}

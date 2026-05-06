@@ -1,0 +1,11 @@
+# --- Prueba de empate ---
+
+pedido1 = [0, 400, 250, "A"]
+pedido2 = [1, 24, 20, "B"]
+pedido3 = [2, 50, 10, "C"]
+pedido4 = [3, 300, 250, "D"] # Mismo beneficio que pedido1, menor peso.
+
+pedidos = [pedido1, pedido2, pedido3, pedido4]
+
+seleccion = seleccion_pedidos(pedidos, 375)
+imprimir_camion(seleccion)
