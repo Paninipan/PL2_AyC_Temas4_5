@@ -1,208 +1,117 @@
-from src.dp_seleccion import seleccion_pedidos
+from dp_seleccion import seleccion_pedidos
 
-# Escenario 1: Escenario básico (Pocos pedidos N <= 5, grafo simple)
+def test_1_seleccion_pedidos():
+    """
+    Demuestra que el algoritmo utiliza la Programación Dinámica y no se queda
+    con el mejor ratio beneficio/peso si eso perjudica el total, como podría llegar
+    a hacer un algoritmo voraz.
+    """
+    print("Ejecutando Test 1: [Seleccion de pedidos]")
+    
+    # El primer pedido tiene mejor ratio (7/6 = 1.16), pero si lo coges, 
+    # te quedas con 4 de capacidad y no puedes meter nada más.
+    # La solución óptima es escoger los pedidos 2 y 3 (Beneficio total = 10).
 
-def test_escenario1_sobra_capacidad():
-    """
-    Prueba un escenario básico donde hay pocos pedidos y el vehículo
-    tiene capacidad de sobra para llevarlos a todos.
+    pedidos = [
+        [1, 6, 7, "A"],
+        [2, 5, 5, "B"],
+        [3, 5, 5, "C"]
+    ]
+
+    C = 10  # Capacidad máxima
     
-    Objetivo: Verificar que el algoritmo no descarta pedidos erróneamente
-    cuando no hay restricciones reales de peso.
-    """
-    print("Ejecutando Test Escenario 1.1: Capacidad de sobra")
-   
-    # Crear pedidos de prueba
-    pedido_1 = [0, 10, 50, "A"]
-    pedido_2 = [1, 20, 100, "B"]
-    pedido_3 = [2, 30, 150, "C"]
-    pedidos = [pedido_1, pedido_2, pedido_3]
+    subconjunto_optimo = seleccion_pedidos(pedidos, C)
+    beneficio_total = sum(p[2] for p in subconjunto_optimo)
     
-    # Definición de capacidad y cálculo del subconjunto óptimo
+    assert beneficio_total == 10, f"Error: El beneficio esperado era 10 , pero fue {beneficio_total}."
+    assert len(subconjunto_optimo) == 2, "Error: Debería haber seleccionado 2 pedidos exactos."
+    print("Test 1: [Selección de pedidos] superado con éxito.\n")
+
+def test_2_seleccion_pedidos():
+    """
+    Comprueba los límites de los índices y sumas asegurando que el algoritmo
+    selecciona pedidos exactamente hasta su máxima capacidad sin pasarse.
+    """
+    print("Ejecutando Test 2: [Seleccion de pedidos]")
+    
+    pedidos = [
+        [1, 5, 10, "A"],
+        [2, 10, 20, "B"],
+        [3, 2, 1, "C"]      # Este pedido no debería entrar
+    ]
+
+    C = 15  # Capacidad máxima
+    
+    subconjunto_optimo = seleccion_pedidos(pedidos, C)
+    beneficio_total = sum(p[2] for p in subconjunto_optimo)
+    peso_total = sum(p[1] for p in subconjunto_optimo)
+    
+    assert beneficio_total == 30, f"Error: El beneficio esperado era 30, pero fue {beneficio_total}"
+    assert peso_total == 15, f"Error: El peso total {peso_total} debería ser la capacidad máxima de {C}."
+    assert len(subconjunto_optimo) == 2, "Error: Debería haber seleccionado los pedidos 1 y 2."
+    print("Test 2: [Seleccion de pedidos] superado con éxito.\n")
+
+def test_3_seleccion_pedidos():
+    """
+    Verifica que el algoritmo se comporta bien y devuelve 
+    listas vacías cuando es imposible transportar ningún pedido.
+    """
+    print("Ejecutando Test 3: [Seleccion de pedidos]")
+    
+    pedidos = [
+        [1, 10, 50, "A"],
+        [2, 6, 20, "B"]
+    ]
+    C = 5   # Capacidad inferior a cualquier pedido
+    
+    subconjunto_optimo = seleccion_pedidos(pedidos, C)
+    beneficio_total = sum(p[2] for p in subconjunto_optimo)
+    
+    assert len(subconjunto_optimo) == 0, "Error: La lista de pedidos seleccionados debería estar vacía."
+    assert beneficio_total == 0, f"Error: El beneficio debería ser 0, pero fue {beneficio_total}"
+    print("Test 3: [Seleccion de pedidos] superado con éxito.\n")
+
+def test_4_seleccion_pedidos():
+    """
+    Comprueba cómo el algoritmo actúa cuando hay dos pedidos 
+    idénticos pero solo hay capacidad para uno.
+    """
+    print("Ejecutando Test 4: [Seleccion de pedidos]")
+    
+    pedidos = [
+        [1, 10, 100, "A"],
+        [2, 10, 100, "A"]
+    ]
+
+    C = 10  # Capacidad máxima
+    
+    subconjunto_optimo = seleccion_pedidos(pedidos, C)
+    beneficio_total = sum(p[2] for p in subconjunto_optimo)
+    
+    assert beneficio_total == 100, f"Error: El beneficio esperado era 100, pero fue {beneficio_total}"
+    assert len(subconjunto_optimo) == 1, "Error: Solo hay espacio para 1 pedido, no para ambos."
+    print("Test 4: [Seleccion de pedidos] superado con éxito.\n")
+
+def test_5_seleccion_pedidos():
+    """
+    Comprueba la inicialización de la relación de recurrencia con
+    una capacidad enorme pero una matriz de pedidos vacía.
+    """
+    print("Ejecutando Test 5: [Seleccion de pedidos]")
+    
+    pedidos = []
     C = 100
+    
     subconjunto_optimo = seleccion_pedidos(pedidos, C)
     
-    # Verificar que el algoritmo funciona correctamente
-    assert len(subconjunto_optimo) == 3, "Error: Debería haber seleccionado los 3 pedidos."
-    beneficio_total = sum(p[2] for p in subconjunto_optimo)
-    assert beneficio_total == 300, f"Error: El beneficio debería ser 300, pero fue {beneficio_total}"
-    
-    print("Test Escenario 1.1 superado con éxito.\n")
+    assert len(subconjunto_optimo) == 0, "Error: Debería devolver una lista vacía."
+    print("Test 5: [Seleccion de pedidos] superado con éxito.\n")
 
 
-def test_escenario1_capacidad_limitada():
-    """
-    Prueba un escenario básico donde la capacidad es limitada y hay 
-    que seleccionar una combinación específica de pedidos.
-    
-    Objetivo: Verificar que el algoritmo elige el subconjunto óptimo (maximizar beneficio)
-    """
-    print("Ejecutando Test Escenario 1.2: Selección óptima estricta")
-    
-    # Crear pedidos de prueba
-    pedido_1 = [0, 5, 10, "A"]
-    pedido_2 = [1, 4, 40, "B"]
-    pedido_3 = [2, 6, 30, "C"]
-    pedido_4 = [3, 3, 50, "D"]
-    pedidos = [pedido_1, pedido_2, pedido_3, pedido_4]
-
-    # Definición de capacidad y cálculo del subconjunto óptimo
-    C = 10
-    subconjunto_optimo = seleccion_pedidos(pedidos, C)
-    
-    # Verificar que el algoritmo funciona correctamente
-    beneficio_total = sum(p[2] for p in subconjunto_optimo)
-    ids_seleccionados = [p[0] for p in subconjunto_optimo]
-    
-    assert beneficio_total == 90, f"Error: El beneficio óptimo esperado es 90, pero se obtuvo {beneficio_total}."
-    assert 1 in ids_seleccionados and 3 in ids_seleccionados, "Error: Debería haber seleccionado los IDs 1 y 3."
-    assert len(subconjunto_optimo) == 2, "Error: Deberían haberse seleccionado exactamente 2 pedidos."
-    
-    print("Test Escenario 1.2 superado con éxito.\n")
-
-
-def test_escenario1_capacidad_insuficiente():
-    """
-    Prueba un escenario básico donde un pedido individual supera
-    por sí solo la capacidad total del vehículo.
-    
-    Objetivo: Asegurar que el algoritmo filtra correctamente los objetos 
-    que no caben y no rompe la restricción de peso máximo.
-    """
-    print("Ejecutando Test Escenario 1.3: Pedido demasiado pesado")
-
-    # Crear pedidos de prueba
-    pedido_1 = [0, 50, 200, "A"]    # Excede la capacidad (50 > 20)
-    pedido_2 = [1, 15, 100, "B"]    # Cabe en el vehículo
-    pedidos = [pedido_1, pedido_2]
-
-    # Definición de capacidad y cálculo del subconjunto óptimo
-    C = 20
-    subconjunto_optimo = seleccion_pedidos(pedidos, C)
-    
-    # Verificar que el algoritmo funciona correctamente
-    assert len(subconjunto_optimo) == 1, "Error: Solo debería coger 1 pedido."
-    assert subconjunto_optimo[0][0] == 1, "Error: Debería haber cogido el pedido con ID 1."
-    assert subconjunto_optimo[0][2] == 100, "Error: El beneficio debería ser 100."
-    
-    print("Test Escenario 1.3 superado con éxito.\n")
-
-
-# Escenario 2: Capacidad Crítica (Muchos pedidos pequeños -> fuerza la DP)
-
-def test_escenario2_fallo_voraz():
-    """
-    Prueba un escenario donde un algoritmo voraz fallaría, forzando a
-    la Programación Dinámica a evaluar combinaciones para hallar el óptimo.
-    
-    Objetivo: Demostrar que la DP encuentra la combinación perfecta llenando
-    la capacidad con pedidos más pequeños en lugar de coger el de mayor beneficio.
-    """
-    print("Ejecutando Test Escenario 2.1: Fallo al utilizar un algoritmo voraz")
-    
-    # Crear pedidos de prueba
-    pedido_1 = [0, 6, 10, "A"]      # Mayor ratio beneficio/peso, pero deja 4kg vacíos.
-    pedido_2 = [1, 5, 8, "B"]
-    pedido_3 = [2, 5, 8, "C"]
-    pedidos = [pedido_1, pedido_2, pedido_3]
-    
-    # Definición de capacidad y cálculo del subconjunto óptimo
-    C = 10
-    subconjunto_optimo = seleccion_pedidos(pedidos, C)
-    
-    # Verificar que el algoritmo funciona correctamente
-    beneficio_total = sum(p[2] for p in subconjunto_optimo)
-    ids_seleccionados = [p[0] for p in subconjunto_optimo]
-    
-    # El subconjunto óptimo es llevar los pedidos 2 (Peso 5, Bº 8) y 3 (Peso 5, Bº 8) 
-    # Peso total = 10, Beneficio total = 16
-    assert beneficio_total == 16, f"Error: El beneficio óptimo esperado es 16, pero se obtuvo {beneficio_total}."
-    assert 1 in ids_seleccionados and 2 in ids_seleccionados, "Error: Debería haber seleccionado los IDs 1 y 2."
-    assert len(subconjunto_optimo) == 2, "Error: Deberían haberse seleccionado exactamente 2 pedidos."
-    
-    print("Test Escenario 2.1 superado con éxito.\n")
-
-
-def test_escenario2_muchos_pedidos():
-    """
-    Prueba un escenario con muchos pedidos de peso y beneficio variable, 
-    forzando a la caché de la DP a recorrer múltiples opciones.
-    
-    Objetivo: Verificar el rendimiento y la exactitud en la toma de decisiones 
-    con una número mayor de posibilidades.
-    """
-    print("Ejecutando Test Escenario 2.2: Muchos pedidos pequeños")
-    
-    # Crear pedidos de prueba
-    pedido_1 = [0, 1, 2, "A"]
-    pedido_2 = [1, 2, 5, "B"]
-    pedido_3 = [2, 3, 8, "C"]
-    pedido_4 = [3, 4, 11, "D"]
-    pedido_5 = [4, 5, 15, "E"]
-    pedido_6 = [5, 6, 17, "F"]
-    pedido_7 = [6, 7, 20, "G"]
-    pedidos = [pedido_1, pedido_2, pedido_3, pedido_4, pedido_5, pedido_6, pedido_7]
-    
-    # Definición de capacidad y cálculo del subconjunto óptimo
-    C = 12
-    subconjunto_optimo = seleccion_pedidos(pedidos, C)
-    
-    # Verificar que el algoritmo funciona correctamente
-    beneficio_total = sum(p[2] for p in subconjunto_optimo)
-    ids_seleccionados = [p[0] for p in subconjunto_optimo]
-    
-    # El subconjunto óptimo es el pedido 5 (Peso 5, Bº 15) y el pedido 7 (Peso 7, Bº 20)
-    # Peso total = 12, Beneficio total = 35
-    assert beneficio_total == 35, f"Error: El beneficio óptimo esperado es 35, pero se obtuvo {beneficio_total}."
-    assert 4 in ids_seleccionados and 6 in ids_seleccionados, "Error: Debería haber seleccionado los IDs 4 y 6."
-    assert len(subconjunto_optimo) == 2, "Error: Deberían haberse seleccionado exactamente 2 pedidos."
-    
-    print("Test Escenario 2.2 superado con éxito.\n")
-
-
-def test_escenario2_capacidad_minima():
-    """
-    Prueba un escenario con muchos pedidos pero con una capacidad de vehículo 
-    muy restrictiva.
-    
-    Objetivo: Validar que la recursividad base de la DP actúa correctamente y
-    selecciona solo los pedidos más valiosos sin pasarse del límite.
-    """
-    print("Ejecutando Test Escenario 2.3: Muchos pedidos con capacidad restrictiva")
-    
-    # Crear pedidos de prueba
-    pedido_1 = [0, 4, 100, "A"]     # Muy valioso, pero no cabe
-    pedido_2 = [1, 5, 120, "B"]     # Muy valioso, pero no cabe
-    pedido_3 = [2, 1, 10, "C"]
-    pedido_4 = [3, 2, 25, "D"]
-    pedido_5 = [4, 1, 12, "E"]
-    pedidos = [pedido_1, pedido_2, pedido_3, pedido_4, pedido_5]
-    
-    # Definición de capacidad y cálculo del subconjunto óptimo
-    C = 3
-    subconjunto_optimo = seleccion_pedidos(pedidos, C)
-    
-    # Verificar que el algoritmo funciona correctamente
-    beneficio_total = sum(p[2] for p in subconjunto_optimo)
-    ids_seleccionados = [p[0] for p in subconjunto_optimo]
-    
-    # El subconjunto óptimo es el pedido 4 (Peso 2, Bº 25) y pedido 5 (Peso 1, Bº 12).
-    # Peso total = 3, Beneficio total = 37.
-    assert beneficio_total == 37, f"Error: El beneficio esperado es 37, pero se obtuvo {beneficio_total}."
-    assert 3 in ids_seleccionados and 4 in ids_seleccionados, "Error: Debería haber seleccionado los IDs 3 y 4."
-    
-    print("Test Escenario 2.3 superado con éxito.\n")
-
-
-if __name__ == '__main__':
-
-    # Tests Escenario 1
-    test_escenario1_sobra_capacidad()
-    test_escenario1_capacidad_limitada()
-    test_escenario1_capacidad_insuficiente()
-    
-    # Tests Escenario 2
-    test_escenario2_fallo_voraz()
-    test_escenario2_muchos_pedidos()
-    test_escenario2_capacidad_minima()
+if __name__ == "__main__":
+    test_1_seleccion_pedidos()
+    test_2_seleccion_pedidos()
+    test_3_seleccion_pedidos()
+    test_4_seleccion_pedidos()
+    test_5_seleccion_pedidos()
     

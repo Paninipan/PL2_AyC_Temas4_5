@@ -2,6 +2,7 @@ import dp_seleccion
 from generador_escenarios import *
 from backtracking_ruta import *
 from dp_seleccion import *
+
 """
 Este es el modulo principal de la aplicacion, este contiene:
     La funcion main encargada de llamar a las demas funciones y ejecutar el programa.
@@ -17,7 +18,7 @@ Estructuras de datos y algoritmos implementados:
         - Capacidad de carga: C capacidad máxima de carga de vehículo.
 
         -Lista de pedidos asignados:
-            + Valor: Tupla 3 valors
+            + Valor: Tupla 3 valores
                 * Id_Pedido
                 * Destino
                 * Beneficio
@@ -72,6 +73,7 @@ def seleccion_escenario(num):
 def main():
     print("1. Generar nuevo escenario")
     print("2. Usar escenario existente")
+    print("3. Ejecutar casos de prueba")
 
     opcion = int(input("Elige una opción: "))
     salir = False

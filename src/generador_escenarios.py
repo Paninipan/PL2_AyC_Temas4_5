@@ -56,6 +56,7 @@ def generar_escenario1(num_nodos, capacidad_max):
 
     escenario = {"capacidad": capacidad, "nodos": nodos_data, "pedidos": pedidos_data}
     return json.dumps(escenario, indent=4)
+
 def generar_escenario2(num_nodos, capacidad_max):
     capacidad = random.randint(10, capacidad_max)
     nombres_nodos = list(string.ascii_uppercase)[:num_nodos]
@@ -79,6 +80,7 @@ def generar_escenario2(num_nodos, capacidad_max):
 
     escenario = {"capacidad": capacidad, "nodos": nodos_data, "pedidos": pedidos_data}
     return json.dumps(escenario, indent=4)
+
 def generar_escenario3(num_pedidos, num_nodos, capacidad_max):
     capacidad = random.randint(10, capacidad_max)
     nombres_nodos = list(string.ascii_uppercase)[:num_nodos]
@@ -104,6 +106,7 @@ def generar_escenario3(num_pedidos, num_nodos, capacidad_max):
 
     escenario = {"capacidad": capacidad, "nodos": nodos_data, "pedidos": pedidos_data}
     return json.dumps(escenario, indent=4)
+
 def generar_escenario5(num_pedidos, num_nodos, capacidad_max):
     capacidad = random.randint(10, capacidad_max)
     nombres_nodos = list(string.ascii_uppercase)[:num_nodos]
@@ -127,10 +130,11 @@ def generar_escenario5(num_pedidos, num_nodos, capacidad_max):
 
     escenario = {"capacidad": capacidad, "nodos": nodos_data, "pedidos": pedidos_data}
     return json.dumps(escenario, indent=4)
+
 def guardar_json(archivo_json, nombre_archivo):
     ruta_carpeta = "data/escenarios"
 
-    # 🔑 Crear carpeta si no existe
+    # Crear carpeta si no existe
     os.makedirs(ruta_carpeta, exist_ok=True)
 
     ruta_completa = os.path.join(ruta_carpeta, nombre_archivo)
