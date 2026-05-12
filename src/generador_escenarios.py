@@ -105,8 +105,7 @@ def generar_escenario3(num_pedidos, num_nodos, capacidad_max):
         nodos_data.append({"origen": nombres_nodos[i], "destino": nombres_nodos[i + 1], "distancia": random.randint(25, 28)})
 
     for i in range(num_nodos - 2):
-        if random.random() < 0.5:
-            nodos_data.append({"origen": nombres_nodos[i], "destino": nombres_nodos[i + 2], "distancia": random.randint(50, 55)})
+        nodos_data.append({"origen": nombres_nodos[i], "destino": nombres_nodos[i + 2], "distancia": random.randint(50, 55)})
 
     # Pedidos como tuplas: (id, peso, beneficio, destino)
     pedidos_data = []
@@ -119,12 +118,8 @@ def generar_escenario3(num_pedidos, num_nodos, capacidad_max):
         )
         pedidos_data.append(pedido)
     for nodo in nodos_data:
-            if 1 == random.randint(1, 5):
-                nodo["tmin"] = random.randint(0, 4)
-                nodo["tmax"] = random.randint(5, 10) * (len(nodos_data) / 2)
-            else:
-                nodo["tmin"] = 0
-                nodo["tmax"] = sys.maxsize
+         nodo["tmin"] = 0
+         nodo["tmax"] = sys.maxsize
 
     escenario = {"capacidad": capacidad, "nodos": nodos_data, "pedidos": pedidos_data}
     return json.dumps(escenario, indent=4)

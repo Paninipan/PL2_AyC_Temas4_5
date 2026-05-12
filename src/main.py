@@ -125,7 +125,7 @@ def main():
     imprimir_camion(pedidos_seleccionados)
 
     nodos = datos["nodos"]
-    ruta , distantcia= optimizar_ruta_backtracking(pedidos_seleccionados, nodos)
+    ruta , distantcia = optimizar_ruta_backtracking(pedidos_seleccionados, nodos)
     imprimir_nodos(ruta)
 
     return False
