@@ -1,5 +1,4 @@
-import dp_seleccion
-from generador_escenarios import *
+from utils.generador_escenarios import *
 from backtracking_ruta import *
 from dp_seleccion import *
 
