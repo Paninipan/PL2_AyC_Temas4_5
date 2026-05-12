@@ -1,9 +1,5 @@
 import sys
 
-import dp_seleccion
-from backtracking_ruta import *
-from dp_seleccion import *
-
 """
 Funciones encargada de generar los escenarios.
 Los escenarios tienen formato json:

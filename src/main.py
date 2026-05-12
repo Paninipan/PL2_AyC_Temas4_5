@@ -73,12 +73,12 @@ def seleccion_escenario(num):
 def main():
     print("1. Generar nuevo escenario")
     print("2. Usar escenario existente")
-    print("3. Ejecutar casos de prueba")
+    print("3. Salir")
 
     opcion = int(input("Elige una opción: "))
     salir = False
     while (not salir):
-        if opcion < 1 or opcion > 2:
+        if opcion < 1 or opcion > 3:
             print("Número inválido")
             opcion = int(input("Elige una opción: "))
         else:
@@ -104,13 +104,14 @@ def main():
 
         if not os.path.exists(ruta):
             print("Ese escenario no existe todavía")
-            return
+            return False
 
         datos = leer_json_a_diccionario(ruta)
-
+    elif opcion == 3:
+        return True
     else:
         print("Opción no válida")
-        return
+        return False
 
     #Estructura de datos
         # print(datos["capacidad"])
@@ -127,7 +128,9 @@ def main():
     ruta , distantcia= optimizar_ruta_backtracking(pedidos_seleccionados, nodos)
     imprimir_nodos(ruta)
 
-
+    return False
 
 if __name__ == "__main__":
-    main()
+    salir = False
+    while not salir:
+        salir = main()

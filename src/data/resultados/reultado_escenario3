@@ -1,0 +1,32 @@
+Camion :
+	+ Pedido : 1
+		+ Beneficio : 31
+		+ Peso : 13
+		+ Destino : A
+	+ Pedido : 2
+		+ Beneficio : 17
+		+ Peso : 3
+		+ Destino : B
+	+ Pedido : 3
+		+ Beneficio : 38
+		+ Peso : 4
+		+ Destino : B
+	+ Pedido : 4
+		+ Beneficio : 25
+		+ Peso : 5
+		+ Destino : A
+	+ Pedido : 6
+		+ Beneficio : 35
+		+ Peso : 3
+		+ Destino : D
+	+ Pedido : 8
+		+ Beneficio : 33
+		+ Peso : 10
+		+ Destino : A
+	+ Pedido : 9
+		+ Beneficio : 32
+		+ Peso : 11
+		+ Destino : C
+[A] --25--> [B]
+[B] --25--> [C]
+[C] --25--> [D]
