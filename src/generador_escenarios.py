@@ -118,8 +118,8 @@ def generar_escenario3(num_pedidos, num_nodos, capacidad_max):
         )
         pedidos_data.append(pedido)
     for nodo in nodos_data:
-         nodo["tmin"] = 0
-         nodo["tmax"] = sys.maxsize
+        nodo["tmin"] = 0
+        nodo["tmax"] = sys.maxsize
 
     escenario = {"capacidad": capacidad, "nodos": nodos_data, "pedidos": pedidos_data}
     return json.dumps(escenario, indent=4)
@@ -131,9 +131,6 @@ def generar_escenario4(num_nodos, capacidad_max):
     origen = nodos[0]
     destinos = nodos[1:]
 
-    # =========================
-    # 1. CAMINO ÓPTIMO (definido por pedidos)
-    # =========================
     camino_optimo = [origen] + destinos
 
     nodos_data = []
@@ -173,11 +170,7 @@ def generar_escenario4(num_nodos, capacidad_max):
                 "tmax": sys.maxsize
             })
 
-    # =========================
-    # 3. PEDIDOS (definen nodos obligatorios)
-    # =========================
     pedidos = []
-
     for i, nodo in enumerate(destinos):
         pedidos.append((
             i + 1,
@@ -186,15 +179,11 @@ def generar_escenario4(num_nodos, capacidad_max):
             nodo
         ))
 
-    # =========================
-    # 4. PROPIEDAD DE GARANTÍA
-    # =========================
     escenario = {
         "capacidad": capacidad,
         "nodos": nodos_data,
         "pedidos": pedidos,
     }
-
     return json.dumps(escenario, indent=4)
 
 def generar_escenario5(num_pedidos, num_nodos, capacidad_max):

@@ -2,43 +2,47 @@ import json
 import heapq
 
 
-def prim_mst(conexiones):
-    # 1. Construir la lista de adyacencia
+def prim_busqueda(nodos_mapa):
+
     # Usamos un diccionario donde cada llave es un nodo y el valor es una lista de (distancia, destino)
     grafo = {}
     nodos_unicos = set()
 
-    for c in conexiones:
-        u, v, d = c['origen'], c['destino'], c['distancia']
-        nodos_unicos.add(u)
-        nodos_unicos.add(v)
-        if u not in grafo: grafo[u] = []
-        if v not in grafo: grafo[v] = []
-        grafo[u].append((d, v))
-        grafo[v].append((d, u))
+    for nodo in nodos_mapa:
+        origen, destino, distancia = nodo['origen'], nodo['destino'], nodo['distancia']
+
+        nodos_unicos.add(origen)
+        nodos_unicos.add(destino)
+
+        if origen not in grafo: grafo[origen] = []
+        if destino not in grafo: grafo[destino] = []
+
+        grafo[origen].append((distancia, destino))
+        grafo[destino].append((distancia, origen))
 
     # 2. Inicializar Prim
-    start_node = list(nodos_unicos)[0]  # Empezamos por cualquier nodo (ej. 'A')
+    nodo_inicio = list(nodos_unicos)[0]  #Empezamos por el primer nodo
     ruta = []
-    visitados = {start_node}
+    visitados = {nodo_inicio}
+
     # Cola de prioridad: (distancia, origen, destino)
-    edges = [(d, start_node, v) for d, v in grafo[start_node]]
-    heapq.heapify(edges)
+    vecinos = [(dist, nodo_inicio, dest) for dist, dest in grafo[nodo_inicio]]
+    heapq.heapify(vecinos)
 
     costo_total = 0
 
-    # 3. Bucle principal
-    while edges:
-        distancia, u, v = heapq.heappop(edges)
+    # 3. Bucle principal para el algoritmo de Prim
+    while vecinos:
+        distancia, origen, destino = heapq.heappop(vecinos)
 
-        if v not in visitados:
-            visitados.add(v)
-            ruta.append({'desde': u, 'hacia': v, 'distancia': distancia})
+        if destino not in visitados:
+            visitados.add(destino)
+            ruta.append({'desde': origen, 'hacia': destino, 'distancia': distancia})
             costo_total += distancia
 
-            for proxima_distancia, vecino in grafo[v]:
+            for proxima_distancia, vecino in grafo[destino]:
                 if vecino not in visitados:
-                    heapq.heappush(edges, (proxima_distancia, v, vecino))
+                    heapq.heappush(vecinos, (proxima_distancia, destino, vecino))
 
     return ruta, costo_total
 
