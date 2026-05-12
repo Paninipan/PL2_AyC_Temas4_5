@@ -19,115 +19,119 @@ Este módulo contiene la función de backtracking para encontrar la ruta óptima
 
     Requisito obligatorio: 
         + El algoritmo debe usar backtracking explícito, no heurísticas voraces.
-
-
 """
 def optimizar_ruta_backtracking(pedidos_asignados, lista_nodos):
-    """
-    Versión adaptada para trabajar con la estructura de datos de los generadores:
-    - lista_nodos: [{"origen": "A", "destino": "B", "distancia": 10}, ...]
-    - pedidos_asignados: [(id, peso, beneficio, destino), ...]
-    """
     punto_inicio = "A"
-    ventanas_tiempo = None
 
-    # 1. Transformar lista de nodos en un mapa de distancias para búsqueda O(1)
-    # Como los generadores suelen dar rutas en un sentido, asumimos bidireccionalidad
+    # ✔ Ventanas por ARISTA (CORRECTO)
+    ventanas_aristas = {
+        key: (n["tmin"], n["tmax"])
+        for n in lista_nodos
+        for key in [(n["origen"], n["destino"]), (n["destino"], n["origen"])]
+    }
+
+    # ✔ Distancias bidireccionales
     distancias = {}
-    nodos_existentes = set()
     for n in lista_nodos:
         u, v, d = n["origen"], n["destino"], n["distancia"]
         distancias[(u, v)] = d
-        distancias[(v, u)] = d  # Simetría para poder volver o movernos libremente
-        nodos_existentes.add(u)
-        nodos_existentes.add(v)
+        distancias[(v, u)] = d
 
-    # 2. Extraer destinos únicos de los pedidos (el destino es el índice 3 según Source 2)
-    destinos_a_visitar = list(set([pedido[3] for pedido in pedidos_asignados]))
+    destinos_a_visitar = list(set([p[3] for p in pedidos_asignados]))
 
-    # Si el punto de inicio está en los destinos, lo quitamos de la lista "a visitar"
-    # para no procesarlo doble, pero debe estar en la ruta inicial.
     if punto_inicio in destinos_a_visitar:
         destinos_a_visitar.remove(punto_inicio)
 
     mejor_ruta = []
     min_distancia = float('inf')
-    distancia_max_limite = 500  # Ajustado según los rangos del generador
 
     def backtrack(nodo_actual, visitados, ruta_actual, distancia_actual, tiempo_actual):
+
         nonlocal mejor_ruta, min_distancia
 
-        # PODA 1: Por distancia acumulada
+        # podamos por la distancia, si la distancia actual supera a la minima encontrada
         if distancia_actual >= min_distancia:
             return
 
-        # PODA 2: Ventanas de tiempo
-        if ventanas_tiempo and nodo_actual in ventanas_tiempo:
-            t_min, t_max = ventanas_tiempo[nodo_actual]
-            if tiempo_actual > t_max:
-                return
-            tiempo_actual = max(tiempo_actual, t_min)
-
-        # CASO BASE: Todos los destinos visitados
+        # Caso base del backtracking, hay 1 nodo y es el que hay que visitar
         if len(visitados) == len(destinos_a_visitar):
-            if distancia_actual < min_distancia:
-                min_distancia = distancia_actual
-                mejor_ruta = ruta_actual.copy()
+            #Copiamos la ruta del caso base y devolvemos
+            mejor_ruta = ruta_actual.copy()
+            min_distancia = distancia_actual
             return
 
-        # RAMIFICACIÓN
+        # RAMIFICACIÓN del "arbol" de posibilidades
         for destino in destinos_a_visitar:
-            if destino not in visitados:
-                # Verificar si existe conexión en el mapa de distancias
-                if (nodo_actual, destino) in distancias:
-                    distancia_viaje = distancias[(nodo_actual, destino)]
 
-                    # Aplicar movimiento
-                    visitados.add(destino)
-                    ruta_actual.append(destino)
+            #Si el destino ya ha sido visitado pasamos
+            if destino in visitados:
+                continue
+            #Si la arista del grafo no existe pasamos
+            if (nodo_actual, destino) not in distancias:
+                continue
 
-                    backtrack(
-                        destino,
-                        visitados,
-                        ruta_actual,
-                        distancia_actual + distancia_viaje,
-                        tiempo_actual + distancia_viaje  # 1 unidad dist = 1 unidad tiempo
-                    )
+            # Accedemos a la distancia de la arista actual-destino y sumamos la ruta
+            distancia_viaje = distancias[(nodo_actual, destino)]
+            nuevo_tiempo = tiempo_actual + distancia_viaje
 
-                    # Backtrack
-                    ruta_actual.pop()
-                    visitados.remove(destino)
+            # La arista es como la carretera entre los nodos y donde el primer acceso y la última salida lo limitan los tmin y tmax
+            arista = (nodo_actual, destino)
 
-    # Inicialización
-    backtrack(nodo_actual=punto_inicio,
-              visitados=set(),
-              ruta_actual=[punto_inicio],
-              distancia_actual=0,
-              tiempo_actual=0)
-    # Construir lista de tramos (origen, destino, distancia)
+            #Si la arista tiene restricciones de tiempo miramos si estamos en el valor adecuado
+            if arista in ventanas_aristas:
+                t_min, t_max = ventanas_aristas[arista]
+
+                #Si el valor del llegada al nodo destino es superior
+                if nuevo_tiempo > t_max:
+                    continue  # demasiado tarde → poda
+
+                #Si el valor de llegada al destino es inferior
+                if nuevo_tiempo < t_min:
+                    nuevo_tiempo = t_min  # espera
+
+            #Añadimos el nodo a visitados y a la ruta
+            visitados.add(destino)
+            ruta_actual.append(destino)
+
+            #Hacemos la llamada del backtracking
+            backtrack(
+                destino,
+                visitados,
+                ruta_actual,
+                distancia_actual + distancia_viaje,
+                nuevo_tiempo
+            )
+            #Sacamos la ruta y el nodo
+            ruta_actual.pop()
+            visitados.remove(destino)
+
+    #llamada inicial del backtracking
+    backtrack(
+        punto_inicio,
+        set(),
+        [punto_inicio],
+        0,
+        0
+    )
+
+    # Construcción de ruta final de manera detallada para la impresión
     ruta_detallada = []
 
+    #Recorremos todos los nodos de la ruta
     for i in range(len(mejor_ruta) - 1):
-        origen = mejor_ruta[i]
-        destino = mejor_ruta[i + 1]
-
-        if (origen, destino) in distancias:
-            d = distancias[(origen, destino)]
-        else:
-            # si no existe conexión directa (por seguridad)
-            d = None
-
-        ruta_detallada.append((origen, destino, d))
+        o, d = mejor_ruta[i], mejor_ruta[i + 1]
+        ruta_detallada.append((o, d, distancias.get((o, d))))
 
     return ruta_detallada, min_distancia
 
-
+#Funcion para imprimir los nodos de la ruta minima
 def imprimir_nodos(lista_nodos):
     """
+    Sigue más o menos la siguiente estructura
     [A]--dis-->[B]--dis-->[C]--/
-    /--dis-->[D]--dis-->[E]--/
-    /--dis-->[F]...
-    """
+     /--dis-->[D]--dis-->[E]--/
+     /--dis-->[F]...
+     """
     for nodo in lista_nodos:
         origen = nodo[0]
         destino = nodo[1]

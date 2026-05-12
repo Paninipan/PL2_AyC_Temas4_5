@@ -59,12 +59,12 @@ def seleccion_escenario(num):
     if num == 1:
         return generar_escenario1(num_nodos, capacidad)
     elif num == 2:
-        return generar_escenario1(num_nodos, capacidad)
+        return generar_escenario2(num_nodos, capacidad)
     elif num == 3:
         num_pedidos = int(input("Elige numero de pedidos: "))
         return generar_escenario3(num_pedidos, num_nodos, capacidad)
-    #elif num == 4:
-        return generar_escenario4()
+    elif num == 4:
+        return generar_escenario4(num_nodos, capacidad)
     else:
         num_pedidos = int(input("Elige numero de pedidos: "))
         return generar_escenario5(num_pedidos, num_nodos, capacidad)

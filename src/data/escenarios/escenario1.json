@@ -1,33 +1,78 @@
 {
-    "capacidad": 484,
+    "capacidad": 50,
     "nodos": [
         {
             "origen": "A",
             "destino": "B",
-            "distancia": 13
+            "distancia": 5,
+            "tmin": 0,
+            "tmax": 9223372036854775807
         },
         {
             "origen": "A",
             "destino": "C",
-            "distancia": 66
+            "distancia": 7,
+            "tmin": 0,
+            "tmax": 9223372036854775807
+        },
+        {
+            "origen": "A",
+            "destino": "D",
+            "distancia": 8,
+            "tmin": 0,
+            "tmax": 15.0
         },
         {
             "origen": "B",
             "destino": "C",
-            "distancia": 80
+            "distancia": 5,
+            "tmin": 0,
+            "tmax": 9223372036854775807
+        },
+        {
+            "origen": "B",
+            "destino": "D",
+            "distancia": 9,
+            "tmin": 0,
+            "tmax": 9223372036854775807
+        },
+        {
+            "origen": "C",
+            "destino": "D",
+            "distancia": 6,
+            "tmin": 2,
+            "tmax": 27.0
         }
     ],
     "pedidos": [
         [
             1,
-            239,
-            32,
+            4,
+            234,
+            "D"
+        ],
+        [
+            2,
+            15,
+            474,
             "C"
         ],
         [
-            1,
-            239,
-            32,
+            3,
+            13,
+            130,
+            "B"
+        ],
+        [
+            4,
+            7,
+            354,
+            "B"
+        ],
+        [
+            5,
+            20,
+            314,
             "B"
         ]
     ]
